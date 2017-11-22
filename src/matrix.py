@@ -34,7 +34,7 @@ def create_normalized_data(train_subjects, unknown_subject):
     return matrix_data, unknown_subject_data
 
 
-def create_characteristic_transformation(matrix_data, eigencount=5):
+def create_characteristic_transformation(matrix_data, pc=5):
     '''
     Based on the recieved training set data, creates the characteristic
     transformation.
@@ -44,7 +44,7 @@ def create_characteristic_transformation(matrix_data, eigencount=5):
     diagonal_mat = np.dot(A, A_t)
     # calculate the eigenvectors and eigenvalues of diagonal_mat
     V = []
-    for i in xrange(eigencount):
+    for i in xrange(pc):
         u_i, lambda_i = power_method(diagonal_mat)
         # having the eigenvector+eigenvalue of A*A_t,
         # calculate the same pair eigenvector of A_t*A

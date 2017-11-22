@@ -40,7 +40,13 @@ def __create_subjects(training_set, new_data):
     'new-data',
     type=click.Path(exists=True, file_okay=True, dir_okay=False)
 )
-def main(training_set, new_data):
+@click.option(
+    '--pc',
+    help='number of principal components to consider. Defaults to 5.',
+    type=int,
+    default=5
+)
+def main(training_set, new_data, pc):
     '''
     Entry point for the face recognition program.\n
     Training set: Directory with the training set. Must contain a list of
@@ -51,9 +57,11 @@ def main(training_set, new_data):
     matrix_data, new_subject_data = create_normalized_data(
         train_subjects, unknown_subject
     )
-    V = create_characteristic_transformation(matrix_data)
+    V = create_characteristic_transformation(matrix_data, pc)
     closest = find_closest_subject(train_subjects, unknown_subject, V)
-    print('The subject should be: {}'.format(closest.name))
+    print('Subject \'{}\' is apparently \'{}\' from the training set.'.format(
+        unknown_subject.name, closest.name)
+    )
 
 if __name__ == '__main__':
     main()
